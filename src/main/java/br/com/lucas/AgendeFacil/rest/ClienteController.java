@@ -1,9 +1,12 @@
 package br.com.lucas.AgendeFacil.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import br.com.lucas.AgendeFacil.model.repository.ClienteRepository;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin("*")
 public class ClienteController {
 	
 	@Autowired
@@ -40,6 +44,11 @@ public class ClienteController {
 		return repository
 				.findById(id)
 				.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "NÃO FOI ENCONTRADO CLIENTE COM ESSE ID."));
+	}
+	
+	@GetMapping
+	public List<Cliente> buscarTodos(){
+		return repository.findAll();
 	}
 	
 	@DeleteMapping("{id}")

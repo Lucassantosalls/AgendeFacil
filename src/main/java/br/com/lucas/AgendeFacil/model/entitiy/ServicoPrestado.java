@@ -47,7 +47,7 @@ public class ServicoPrestado {
 	private Boolean concluido = false;
 	
 	@Column(nullable = false, length = 11)
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataDoServico;
 
 }

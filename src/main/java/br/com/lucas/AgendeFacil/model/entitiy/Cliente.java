@@ -51,7 +51,7 @@ public class Cliente {
 	
 	@Column(nullable = false, length = 11)
 	@NotNull(message = "{dtNascimento.obrigatorio}")
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dtNascimento;
 	
 	@Column(nullable = false, length = 1)

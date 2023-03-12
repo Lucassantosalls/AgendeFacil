@@ -31,7 +31,7 @@ public class Util {
 	}
 	public LocalDate validarData(String data) {
 		try {
-			LocalDate retorno = LocalDate.parse(data,DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			LocalDate retorno = LocalDate.parse(data,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			return retorno;
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data Inválida.");
