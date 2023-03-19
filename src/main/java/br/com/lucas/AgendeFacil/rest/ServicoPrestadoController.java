@@ -1,8 +1,11 @@
 package br.com.lucas.AgendeFacil.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/servicos-prestados")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class ServicoPrestadoController {
 
@@ -49,7 +54,7 @@ public class ServicoPrestadoController {
 		servicoprestado.setDataDoServico(util.validarData(dto.getDataDoServico()));
 		servicoprestado.setCliente(cliente);
 		servicoprestado.setValor(util.stringToBigDecimal(dto.getValor()));
-		servicoprestado.setConcluido(util.stringToBoolean(dto.getConcluido()));
+		servicoprestado.setConcluido(dto.getConcluido());
 		return repository.save(servicoprestado);
 	}
 	
@@ -92,10 +97,21 @@ public class ServicoPrestadoController {
 			servicoprestado.setDataDoServico(util.validarData(dto.getDataDoServico()));
 			servicoprestado.setCliente(cliente);
 			servicoprestado.setValor(util.stringToBigDecimal(dto.getValor()));
-			servicoprestado.setConcluido(util.stringToBoolean(dto.getConcluido()));
+			servicoprestado.setConcluido(dto.getConcluido());
 			servicoprestado.setId(id);
 			return repository.save(servicoprestado);
 		})
 		.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "NÃO FOI ENCONTRADO SERVICO COM ESSE ID."));
+	}
+	
+	@GetMapping
+	public List<ServicoPrestado> pesquisar(
+		@RequestParam(value = "nome", required = false) String nome,
+		@RequestParam(value = "mes", required = false) Integer mes
+	){
+		if(mes == null) {
+			return repository.findAll();
+		}
+		return repository.findByNomeClienteAndMes("%"+nome+"%", mes);
 	}
 }

@@ -44,7 +44,7 @@ public class ServicoPrestado {
 	private BigDecimal valor;
 	
 	@Column(nullable = false)
-	private Boolean concluido = false;
+	private String concluido;
 	
 	@Column(nullable = false, length = 11)
 	@JsonFormat(pattern = "yyyy-MM-dd")
